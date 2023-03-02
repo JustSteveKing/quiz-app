@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\Role;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -34,4 +35,12 @@ final class User extends Authenticatable
         'role' => Role::class,
         'email_verified_at' => 'datetime',
     ];
+
+    public function quizzes(): HasMany
+    {
+        return $this->hasMany(
+            related: Quiz::class,
+            foreignKey: 'user_id',
+        );
+    }
 }
