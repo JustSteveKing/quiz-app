@@ -4,27 +4,24 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\QuizStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-final class Quiz extends Model
+final class Entry extends Model
 {
     use HasFactory;
     use HasUlids;
 
     protected $fillable = [
-        'name',
-        'description',
-        'status',
+        'completed',
         'user_id',
+        'quiz_id',
     ];
 
     protected $casts = [
-        'status' => QuizStatus::class,
+        'completed' => 'boolean',
     ];
 
     public function user(): BelongsTo
@@ -35,18 +32,10 @@ final class Quiz extends Model
         );
     }
 
-    public function questions(): HasMany
+    public function quiz(): BelongsTo
     {
-        return $this->hasMany(
-            related: Question::class,
-            foreignKey: 'quiz_id',
-        );
-    }
-
-    public function entries(): HasMany
-    {
-        return $this->hasMany(
-            related: Entry::class,
+        return $this->belongsTo(
+            related: Quiz::class,
             foreignKey: 'quiz_id',
         );
     }

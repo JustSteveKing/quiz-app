@@ -43,4 +43,12 @@ final class User extends Authenticatable
             foreignKey: 'user_id',
         );
     }
+
+    public function entries(): HasMany
+    {
+        return $this->hasMany(
+            related: Entry::class,
+            foreignKey: 'user_id',
+        );
+    }
 }
