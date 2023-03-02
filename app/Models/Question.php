@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 final class Question extends Model
 {
@@ -34,6 +35,14 @@ final class Question extends Model
         return $this->belongsTo(
             related: Quiz::class,
             foreignKey: 'quiz_id',
+        );
+    }
+
+    public function answers(): HasMany
+    {
+        return $this->hasMany(
+            related: Answer::class,
+            foreignKey: 'question_id',
         );
     }
 }
